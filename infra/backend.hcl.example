@@ -1,0 +1,5 @@
+bucket       = "tfstate-candidate-api-<ACCOUNT_ID>-eu-west-3"
+key          = "candidate-api/dev/terraform.tfstate"
+region       = "eu-west-3"
+encrypt      = true
+use_lockfile = true

@@ -1,0 +1,35 @@
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+tfplan
+crash.log
+crash.*.log
+
+# Terraform inputs with real values (only the .example files are tracked)
+terraform.tfvars
+*.auto.tfvars
+backend.hcl
+.terraformrc
+terraform.rc
+
+# Build artifacts
+.build/
+*.zip
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local tooling / editors
+.env
+.env.*
+.DS_Store
+.idea/
+.vscode/

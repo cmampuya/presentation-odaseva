@@ -1,0 +1,8 @@
+project_name = "candidate-api"
+environment  = "dev"
+aws_region   = "eu-west-3"
+owner        = "your.name@example.com"
+
+# Demo: allow destroy/apply cycles. Use true / false in production.
+deletion_protection_enabled = false
+force_destroy_bucket        = true

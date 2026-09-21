@@ -1,0 +1,187 @@
+{
+  "info": {
+    "name": "Candidate API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Set the collection variables from `terraform output` (client_secret: `terraform output -raw client_secret`). Postman fetches the token automatically (OAuth 2.0, Client Credentials)."
+  },
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "grant_type",
+        "value": "client_credentials",
+        "type": "string"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "{{tokenUrl}}",
+        "type": "string"
+      },
+      {
+        "key": "clientId",
+        "value": "{{clientId}}",
+        "type": "string"
+      },
+      {
+        "key": "clientSecret",
+        "value": "{{clientSecret}}",
+        "type": "string"
+      },
+      {
+        "key": "scope",
+        "value": "{{scope}}",
+        "type": "string"
+      },
+      {
+        "key": "client_authentication",
+        "value": "header",
+        "type": "string"
+      },
+      {
+        "key": "addTokenTo",
+        "value": "header",
+        "type": "string"
+      },
+      {
+        "key": "tokenName",
+        "value": "candidate-api",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://78ts6karnk.execute-api.eu-west-3.amazonaws.com/v1"
+    },
+    {
+      "key": "tokenUrl",
+      "value": "https://candidate-api-dev-42174c.auth.eu-west-3.amazoncognito.com/oauth2/token"
+    },
+    {
+      "key": "clientId",
+      "value": "6rpqnaqr2kv9koauo5996aleq3"
+    },
+    {
+      "key": "clientSecret",
+      "value": "1lqm4rhb1f3tlfso5dbqn5113kbgrknna2eae6q793gu5ea9demf"
+    },
+    {
+      "key": "scope",
+      "value": "candidate-api-dev/candidates.read candidate-api-dev/candidates.write"
+    },
+    {
+      "key": "candidateId",
+      "value": "CA-000001"
+    },
+    {
+      "key": "specialty",
+      "value": "Informatique"
+    }
+  ],
+  "item": [
+    {
+      "name": "Create candidate",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/candidates",
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "specialty",
+              "value": "Informatique",
+              "type": "text"
+            },
+            {
+              "key": "firstName",
+              "value": "Ada",
+              "type": "text"
+            },
+            {
+              "key": "lastName",
+              "value": "Lovelace",
+              "type": "text"
+            },
+            {
+              "key": "birthDate",
+              "value": "1985-12-10",
+              "type": "text"
+            },
+            {
+              "key": "resume",
+              "type": "file",
+              "src": "samples/resume.pdf"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('201 Created', () => pm.response.to.have.status(201));",
+              "pm.collectionVariables.set('candidateId', pm.response.json().candidateId);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get candidate",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/candidates/{{candidateId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('200 OK', () => pm.response.to.have.status(200));",
+              "pm.test('has download URL', () => pm.expect(pm.response.json().resume.downloadUrl).to.include('X-Amz-Signature'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "List candidates by specialty",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/candidates?specialty={{specialty}}&limit=20",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "candidates"
+          ],
+          "query": [
+            {
+              "key": "specialty",
+              "value": "{{specialty}}"
+            },
+            {
+              "key": "limit",
+              "value": "20"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get candidate without token (401)",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "url": "{{baseUrl}}/candidates/{{candidateId}}"
+      }
+    }
+  ]
+}
