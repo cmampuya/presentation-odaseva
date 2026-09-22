@@ -52,23 +52,23 @@
   "variable": [
     {
       "key": "baseUrl",
-      "value": "https://78ts6karnk.execute-api.eu-west-3.amazonaws.com/v1"
+      "value": "<terraform output -raw api_base_url>"
     },
     {
       "key": "tokenUrl",
-      "value": "https://candidate-api-dev-42174c.auth.eu-west-3.amazoncognito.com/oauth2/token"
+      "value": "<terraform output -raw token_endpoint>"
     },
     {
       "key": "clientId",
-      "value": "6rpqnaqr2kv9koauo5996aleq3"
+      "value": "<terraform output -raw client_id>"
     },
     {
       "key": "clientSecret",
-      "value": "1lqm4rhb1f3tlfso5dbqn5113kbgrknna2eae6q793gu5ea9demf"
+      "value": "<terraform output -raw client_secret>"
     },
     {
       "key": "scope",
-      "value": "candidate-api-dev/candidates.read candidate-api-dev/candidates.write"
+      "value": "<terraform output -json client_scopes | jq -r 'join(\" \")'>"
     },
     {
       "key": "candidateId",

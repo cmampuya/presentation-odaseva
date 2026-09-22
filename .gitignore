@@ -33,3 +33,6 @@ venv/
 .DS_Store
 .idea/
 .vscode/
+
+# Postman environments hold the real client_secret
+*.postman_environment.json
